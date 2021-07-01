@@ -1,6 +1,6 @@
 #include "D3DApp.h"
 
-#include<windowsx.h>
+#include <WindowsX.h>
 
 namespace
 {
@@ -31,6 +31,9 @@ D3DApp::D3DApp(HINSTANCE hInstance)
 	, mbResizing(false)
 	, mbEnable4xMSAA(false)
 {
+	// Get a pointer to the application object so we can forward 
+	// Windows messages to the object's window procedure through
+	// the global window procedure.
 	gD3DApp = this;
 }
 
@@ -58,6 +61,8 @@ int D3DApp::Run()
 {
 	MSG msg = {0};
 
+	mTimer.Reset();
+
 	while (msg.message != WM_QUIT)
 	{
 		// If there are Window messages then process them.
@@ -69,9 +74,12 @@ int D3DApp::Run()
 		// Otherwise, do animation / game stuff.
 		else
 		{
+			mTimer.Tick();
+
 			if (!mbAppPaused)
 			{
-				UdapteScene(0.f);
+				CalculateFrameStats();
+				UdapteScene(mTimer.GetDeltaTime());
 				DrawScene();
 			}
 			else
@@ -117,12 +125,43 @@ LRESULT D3DApp::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		if (LOWORD(wParam) == WA_INACTIVE)
 		{
 			mbAppPaused = true;
-			
+			mTimer.Stop();
 		}
 		else
 		{
 			mbAppPaused = false;
+			mTimer.Start();
 		}
+	}
+		return 0;
+
+	// WM_SIZE is sent when the user resizes the windpw.
+	case WM_SIZE:
+	{
+		// Save the new client area dimensions.
+		mClientWidth = LOWORD(lParam);
+		mClientHeight = HIWORD(lParam);
+
+	}
+		return 0;
+
+	// WM_EXITSIZEMOVE is sent when the user grabs the resize bars.
+	case WM_ENTERSIZEMOVE:
+	{
+		mbAppPaused = true;
+		mbResizing = true;
+		mTimer.Stop();
+	}
+		return 0;
+
+	// WM_EXITSIZEMOVE is sent when the user releases the resize bars.
+	// Here we reset everything based on the new window dimensions.
+	case WM_EXITSIZEMOVE:
+	{
+		mbAppPaused = false;
+		mbResizing = false;
+		mTimer.Start();
+		OnResize();
 	}
 		return 0;
 
@@ -217,4 +256,38 @@ bool D3DApp::InitMainWindow()
 bool D3DApp::InitDirect3D()
 {
 	return true;
+}
+
+void D3DApp::CalculateFrameStats()
+{
+	/*
+		Code computes the average frames per second, 
+		and also the average time it takes to render one frame. 
+		These stats are appended to the window caption bar.
+
+		이 메서드는 평균 FPS를 계산하며, 하나의 프레임을 렌더링하는데 걸리는 평균 시간도 계산한다.
+		또한 이 통계치들을 창의 제목 줄에 추가한다.
+	*/
+	static int FrameCount = 0;
+	static float TimeElapsed = 0.0f;
+
+	++FrameCount;
+
+	// Compute average over one second period.
+	// 1초 동안의 평균 프레임 수를 계산
+	if ((mTimer.GetTotalTime() - TimeElapsed) >= 1.0f)
+	{
+		const float FPS = (float)FrameCount; // FPS = FrameCount / 1
+		const float MSPF = 1000.0f / FPS;
+
+		std::wostringstream outs;
+		outs.precision(6);
+		outs << mMainWindowCaption << L" - FPS: " << FPS << L" - FrameTime: " << MSPF << L" (ms)";
+		SetWindowText(mhMainWindow, outs.str().c_str());
+
+		// Reset for next average.
+		// 다음 평균을 위해 다시 초기화
+		FrameCount = 0;
+		TimeElapsed += 1.0f;
+	}
 }

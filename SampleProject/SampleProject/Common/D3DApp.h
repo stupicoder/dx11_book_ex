@@ -1,7 +1,8 @@
 #pragma once
 
-#include<Windows.h>
-#include<string>
+#include <Windows.h>
+#include "D3DUtil.h"
+#include "GameTimer.h"
 
 class D3DApp
 {
@@ -33,6 +34,8 @@ protected:
 	bool InitMainWindow();
 	bool InitDirect3D();
 
+	void CalculateFrameStats();
+
 protected:
 	HINSTANCE mhInstance; // 응용프로그램 인스턴스 핸들
 	HWND mhMainWindow; // 주 창 핸들
@@ -43,6 +46,9 @@ protected:
 
 	// 창의 제목
 	std::wstring mMainWindowCaption;
+	
+	// 경과 시간과 게임 전체 시간을 측정하는데 쓰인다 (4.3)
+	GameTimer mTimer;
 
 	BYTE mbAppPaused:1; // 정지 상태 체크
 	BYTE mbMinimized:1; // 최소화 상태 체크
@@ -50,6 +56,5 @@ protected:
 	BYTE mbResizing:1; // 창 사이즈 조절 상태 체크
 
 	BYTE mbEnable4xMSAA:1; // 4xMSAA 사용여부, 기본 값은 false (4.1.8)
-
 
 };
