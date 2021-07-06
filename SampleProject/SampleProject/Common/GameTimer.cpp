@@ -24,6 +24,8 @@ float GameTimer::GetDeltaTime() const
 // Not counting anytime when the clock is stopped.
 float GameTimer::GetTotalTime() const
 {
+	// 4.3.4 전체 시간
+
 	// If we are stopped, do not count the time that has passed since we stopped.
 	// Moreover, if we previously already had a pause, the distance 
 	// mStopTime - mBaseTime includes paused time, which we do not want to count.
@@ -99,6 +101,8 @@ void GameTimer::Stop()
 
 void GameTimer::Tick()
 {
+	// 4.3.3 프레임 간 경과 시간
+
 	if (mbStopped)
 	{
 		mDeltaTime = 0.0;

@@ -57,4 +57,23 @@ protected:
 
 	BYTE mbEnable4xMSAA:1; // 4xMSAA 사용여부, 기본 값은 false (4.1.8)
 
+	// D3D11 장치, 페이지 전환을 위한 교환 사슬 (4.2.4)
+	// 깊이-스텐실 버퍼를 위한 2차원 텍스처 (4.2.6)
+	// 렌더 대상용 2차원 텍스처 (4.2.5) 
+	// 깊이-스텐실 뷰 (4.2.6)
+	// 뷰포트 (4.2.8)
+
+	ID3D11Device* mD3DDevice;
+	ID3D11DeviceContext* mD3DImmediateContext;
+	IDXGISwapChain* mSwapChain;
+	ID3D11Texture2D* mDepthStencilBuffer;
+	ID3D11RenderTargetView* mRenderTargetView;
+	ID3D11DepthStencilView* mDepthStencilView;
+	D3D11_VIEWPORT mScreenViewport;
+
+	// 드라이버 종류( 하드웨어 장치 또는 표준 장치 등 ).
+	// D3DApp의 기본값은 D3D_DRIVER_TYPE_HARDWARE 이다.
+	D3D_DRIVER_TYPE md3dDriverType;
+
+	UINT m4xMSAAQuality; // 4x MSAA의 품질 수준
 };

@@ -1,5 +1,7 @@
 #pragma once
 
+
+// 4.3 타이밍과 애니메이션
 class GameTimer
 {
 public:
