@@ -16,6 +16,9 @@
     <Filter Include="Common">
       <UniqueIdentifier>{80a8518d-6b28-4781-aae1-74871d30b510}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Chapter">
+      <UniqueIdentifier>{eb9535e1-9840-4a08-9f0a-c0773de1640a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -46,6 +49,9 @@
     </ClInclude>
     <ClInclude Include="Common\dxerr.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Chapter\04_InitDirect3D.h">
+      <Filter>Chapter</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

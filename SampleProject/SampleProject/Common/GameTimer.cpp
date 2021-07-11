@@ -11,8 +11,8 @@ GameTimer::GameTimer()
 	, mbStopped(false)
 {
 	__int64 CountsPerSec;
-	QueryPerformanceFrequency((LARGE_INTEGER*)&CountsPerSec); // 초당 몇 번 수행되는지
-	mSecondsPerCount = 1.0 / (double)CountsPerSec; // 한 번에 몇초 걸리는지
+	QueryPerformanceFrequency((LARGE_INTEGER*)&CountsPerSec); // 초당 몇 번 수행되는지 = 주파수
+	mSecondsPerCount = 1.0 / (double)CountsPerSec; // 한 번에 몇초 걸리는지 = 개수당 초
 }
 
 float GameTimer::GetDeltaTime() const
@@ -113,6 +113,7 @@ void GameTimer::Tick()
 	QueryPerformanceCounter((LARGE_INTEGER*)&CurTime);
 	mCurTime = CurTime;
 
+	// 이전 프레임과 현재 프레임의 Counter 차이에 Counter 별 시간을 곱하면 Deltatime 계산
 	// Time difference between this frame and the previous.
 	mDeltaTime = (mCurTime - mPrevTime) * mSecondsPerCount;
 

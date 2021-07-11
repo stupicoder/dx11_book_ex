@@ -167,6 +167,7 @@ void D3DApp::OnResize()
 		NULL, // D3D11_RENDER_TARGET_VIEW_DESC 구조체 포인터, 무형식이 아니라면 NULL 해줘도 무방
 		&mRenderTargetView // 렌더 타겟 뷰, 첫번째 밉맵 수준의 뷰 (후에 8장에서 자세히 서술)
 	));
+	ReleaseCOM(BackBuffer);
 
 	// 4.2.6 깊이, 스텐실 버퍼와 뷰의 생성
 	// Create the depth/stencil buffer and view.
