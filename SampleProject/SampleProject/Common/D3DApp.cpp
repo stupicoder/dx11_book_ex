@@ -233,6 +233,14 @@ void D3DApp::OnResize()
 	mScreenViewport.MinDepth = 0.f;
 	mScreenViewport.MaxDepth = 1.f;
 
+	// 4.7 연습문제 6
+	/*mScreenViewport.TopLeftX = 100.f;
+	mScreenViewport.TopLeftY = 100.f;
+	mScreenViewport.Width = 500.f;
+	mScreenViewport.Height = 400.f;
+	mScreenViewport.MinDepth = 0.f;
+	mScreenViewport.MaxDepth = 1.f;*/
+
 	// Rasterize Stage
 	mD3DImmediateContext->RSSetViewports(1, &mScreenViewport);
 	// Viewport 를 여러개 설정하면 플레이어 별로 다른 뷰를 보여줄 수 있음.
@@ -532,6 +540,114 @@ bool D3DApp::InitDirect3D()
 
 	// 교환 사슬을 생성
 	HR(DXGIFactory->CreateSwapChain(mD3DDevice, &SwapChainDesc, &mSwapChain));
+
+	
+	// 4.7 연습문제 1
+	/*UINT MWAFlags = DXGI_MWA_NO_WINDOW_CHANGES;
+	DXGIFactory->MakeWindowAssociation(mhMainWindow, MWAFlags);*/
+	
+	// 4.7 연습문제 2
+	/*UINT AdapterNum = 0;
+	IDXGIAdapter* CurrentAdapter = NULL;
+	while (!FAILED(DXGIFactory->EnumAdapters(AdapterNum, &CurrentAdapter)))
+	{
+		if (CurrentAdapter == NULL)
+		{
+			break;
+		}
+		++AdapterNum;
+	}
+	{
+		std::wstring Msg = L"AdapterNum : " + std::to_wstring(AdapterNum);
+		MessageBox(0, Msg.c_str(), 0, 0);
+	}*/
+
+	// 4.7 연습문제 3
+	/*UINT AdapterNum = 0;
+	IDXGIAdapter* CurrentAdapter = NULL;
+	std::wstring Msg;
+	while (!FAILED(DXGIFactory->EnumAdapters(AdapterNum, &CurrentAdapter)))
+	{
+		if (CurrentAdapter == NULL)
+		{
+			break;
+		}
+		++AdapterNum;
+
+		LARGE_INTEGER UMDVersion;
+		HRESULT Result = CurrentAdapter->CheckInterfaceSupport(__uuidof(ID3D11Device), &UMDVersion);
+		Msg += std::to_wstring(AdapterNum - 1) + L"_Adpater: " 
+			+ (FAILED(hr) ? L" DX11 Failed" : L"DX11 Support") + L"\n";
+	}
+	{
+		Msg += L"AdapterNum : " + std::to_wstring(AdapterNum);
+		MessageBox(0, Msg.c_str(), 0, 0);
+	}*/
+
+	// 4.7 연습문제 4
+	/*UINT OutputNum = 0;
+	IDXGIAdapter* CurrentAdapter = NULL;
+	std::wstring Msg;
+	if (!FAILED(DXGIFactory->EnumAdapters(0, &CurrentAdapter)))
+	{
+		IDXGIOutput* CurrentOutput = NULL;
+		while (!FAILED(CurrentAdapter->EnumOutputs(OutputNum, &CurrentOutput)))
+		{
+			if (CurrentOutput == NULL)
+			{
+				break;
+			}
+
+			++OutputNum;
+
+			ReleaseCOM(CurrentOutput);
+		}
+
+		ReleaseCOM(CurrentAdapter);
+	}
+	{
+		Msg += L"OutputNum : " + std::to_wstring(OutputNum);
+		MessageBox(0, Msg.c_str(), 0, 0);
+	}*/
+
+	// 4.7 연습문제 5
+	/*IDXGIAdapter* CurrentAdapter = NULL;
+	std::wstring Msg;
+	if (!FAILED(DXGIFactory->EnumAdapters(0, &CurrentAdapter)))
+	{
+		UINT OutputNum = 0;
+		IDXGIOutput* CurrentOutput = NULL;
+		while (!FAILED(CurrentAdapter->EnumOutputs(OutputNum, &CurrentOutput)))
+		{
+			UINT ModeNum = 0;
+			HRESULT hr = CurrentOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, 0, &ModeNum, NULL);
+			if (FAILED(hr))
+			{
+				break;
+			}
+
+			DXGI_MODE_DESC* ModeList = new DXGI_MODE_DESC[ModeNum];
+			hr = CurrentOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, 0, &ModeNum, ModeList);
+			for (int i = 0; i < ModeNum; ++i)
+			{
+				Msg += std::to_wstring(OutputNum) + L" Output, " + std::to_wstring(i) + L" Mode, ";
+				Msg += L"Width : " + std::to_wstring(ModeList[i].Width);
+				Msg += L", Height : " + std::to_wstring(ModeList[i].Height);
+				Msg += L", Refresh : " + std::to_wstring(ModeList[i].RefreshRate.Numerator);
+				Msg += L"/ " + std::to_wstring(ModeList[i].RefreshRate.Denominator) + L"\n";
+			}
+
+			++OutputNum;
+
+			delete[] ModeList;
+			ReleaseCOM(CurrentOutput);
+		}
+
+		ReleaseCOM(CurrentAdapter);
+	}
+	{
+		MessageBox(0, Msg.c_str(), 0, 0);
+	}*/
 
 	// 획득했던 COM 인터페이스를 해제 (다 사용했으므로)
 	ReleaseCOM(DXGIDevice);
