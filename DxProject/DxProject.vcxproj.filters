@@ -19,6 +19,9 @@
     <Filter Include="Chapter">
       <UniqueIdentifier>{6b7f6497-7a64-4ca2-be58-a5e1b7bc821b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Chapter\Ch04">
+      <UniqueIdentifier>{c62c6349-655e-4b72-84d3-834c545ffbaf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -43,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="Common\D3DUtil.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Chapter\Ch04\InitDirect3D.h">
+      <Filter>Chapter\Ch04</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

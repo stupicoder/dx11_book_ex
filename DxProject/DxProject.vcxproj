@@ -149,6 +149,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Chapter\Ch04\InitDirect3D.h" />
     <ClInclude Include="Common\D3DApp.h" />
     <ClInclude Include="Common\D3DUtil.h" />
     <ClInclude Include="Common\GameTimer.h" />
