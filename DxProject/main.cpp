@@ -3,6 +3,7 @@
 
 // Chapter
 #include "Chapter/Ch04/InitDirect3D.h"
+#include "Chapter/Ch06/Box.h"
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, PWSTR pCmdLine, int nCmdShow)
 {
@@ -15,6 +16,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, PWSTR pCmdLine,
 	switch (0)
 	{
 	case 0:
+		MainApp = new BoxApp(hInstance);
+		break;
+	case 1:
 		MainApp = new InitDirect3DApp(hInstance);
 		break;
 	default:

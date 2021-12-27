@@ -22,6 +22,12 @@
     <Filter Include="Chapter\Ch04">
       <UniqueIdentifier>{c62c6349-655e-4b72-84d3-834c545ffbaf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Chapter\Ch06">
+      <UniqueIdentifier>{e66635a6-5754-4f85-97f5-38474b7c19b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FX">
+      <UniqueIdentifier>{7fc3240b-0773-47de-8c22-99b03cbe7081}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -34,6 +40,12 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Common\D3DUtil.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Chapter\Ch06\Box.cpp">
+      <Filter>Chapter\Ch06</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\MathHelper.cpp">
       <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,5 +62,19 @@
     <ClInclude Include="Chapter\Ch04\InitDirect3D.h">
       <Filter>Chapter\Ch04</Filter>
     </ClInclude>
+    <ClInclude Include="Chapter\Ch06\Box.h">
+      <Filter>Chapter\Ch06</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\d3dx11effect.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\MathHelper.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="FX\Color.fx">
+      <Filter>FX</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

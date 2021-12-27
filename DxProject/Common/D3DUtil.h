@@ -15,6 +15,8 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
+#include "d3dx11effect.h"
+#include "MathHelper.h"
 
 //---------------------------------------------------------------------------------------
 // Simple d3d error checker for book demos.
