@@ -291,9 +291,9 @@ void BoxApp::BuildFX()
 		NULL, // LPD3D10INCLUDE pInclude : 고급 옵션
 		NULL, // LPCSTR pFunctionName : 쉐이더 프로그램 진입점, 주 함수 이름. 개별적으로 컴파일 할 때만 사용. 효과 프레임워크 사용시 NULL
 		"fx_5_0", // 사용할 쉐이더 버전을 뜻하는 문자열 
-		shaderFlags, // 쉐이더 코드 컴파일 방식에 영향을 주는 플래그
-		0, // 고급 옵션
-		0, // 고급 옵션, 쉐이더를 비동기 적으로 컴파일 하기 위한 옵션
+		shaderFlags, // 쉐이더 코드 컴파일 방식에 영향을 주는 플래그 (D3D10_SHADER_DEBUG, D3D10_SHADER_SKIP_OPTIMIZATION 등)
+		0, // 고급 옵션 
+		0, // pPump 고급 옵션, 쉐이더를 비동기 적으로 컴파일 하기 위한 옵션
 		&CompiledShader, // 컴파일된 쉐이더를 담을 구조체 포인터
 		&CompilationMsgs, // 컴파일 오류 메세지를 담은 문자열을 담은 구조체 반환
 		0); // 비동기 컴파일 시 오류코드를 조회하는데 사용
@@ -315,7 +315,7 @@ void BoxApp::BuildFX()
 	HR(D3DX11CreateEffectFromMemory(
 		CompiledShader->GetBufferPointer(), // 컴파일된 쉐이더 포인터
 		CompiledShader->GetBufferSize(), // 컴파일된 쉐이더 사이즈 (바이트)
-		0, // 효과 플래그, Flags2 에 지정한 값과 일치해야 함.
+		0, // FXFlags 효과 플래그, Flags2 에 지정한 값과 일치해야 함.
 		mD3DDevice, // DirectX11 장치를 가리키는 포인터
 		&mFX)); // 생성된 효과 파일
 
