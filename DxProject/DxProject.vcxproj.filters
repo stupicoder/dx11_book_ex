@@ -48,6 +48,12 @@
     <ClCompile Include="Common\MathHelper.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Chapter\Ch06\Hills.cpp">
+      <Filter>Chapter\Ch06</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\GeometryGenerator.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\D3DApp.h">
@@ -69,6 +75,12 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Common\MathHelper.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Chapter\Ch06\Hills.h">
+      <Filter>Chapter\Ch06</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\GeometryGenerator.h">
       <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
