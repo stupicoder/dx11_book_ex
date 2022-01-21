@@ -54,6 +54,9 @@
     <ClCompile Include="Common\GeometryGenerator.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Chapter\Ch06\Shapes.cpp">
+      <Filter>Chapter\Ch06</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\D3DApp.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="Common\GeometryGenerator.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Chapter\Ch06\Shapes.h">
+      <Filter>Chapter\Ch06</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

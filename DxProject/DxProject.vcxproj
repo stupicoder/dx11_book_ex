@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClCompile Include="Chapter\Ch06\Box.cpp" />
     <ClCompile Include="Chapter\Ch06\Hills.cpp" />
+    <ClCompile Include="Chapter\Ch06\Shapes.cpp" />
     <ClCompile Include="Common\D3DApp.cpp" />
     <ClCompile Include="Common\D3DUtil.cpp" />
     <ClCompile Include="Common\GameTimer.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="Chapter\Ch04\InitDirect3D.h" />
     <ClInclude Include="Chapter\Ch06\Box.h" />
     <ClInclude Include="Chapter\Ch06\Hills.h" />
+    <ClInclude Include="Chapter\Ch06\Shapes.h" />
     <ClInclude Include="Common\D3DApp.h" />
     <ClInclude Include="Common\D3DUtil.h" />
     <ClInclude Include="Common\d3dx11effect.h" />

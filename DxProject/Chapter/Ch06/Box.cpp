@@ -83,7 +83,7 @@ void BoxApp::DrawScene()
 	mD3DImmediateContext->ClearRenderTargetView(mRenderTargetView, reinterpret_cast<const float*>(&Colors::Blue));
 	mD3DImmediateContext->ClearDepthStencilView(mDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-	// 입력 배치 장치에 묶음
+	// 입력 배치 장치에 묶음, 다른 InputLayout을 Bind 하기 전까지 기존꺼 사용
 	mD3DImmediateContext->IASetInputLayout(mInputLayout);
 	// 정점 및 인덱스를 어떤 방식으로 구성할지 지정
 	mD3DImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -345,12 +345,17 @@ void BoxApp::BuildVertexLayout()
 			0, // Semantic 인덱스, texcoord 등에서 사용
 			DXGI_FORMAT_R32G32B32_FLOAT, // 정점 성분의 자료형식
 			0, // 자료가 입력될 정점 버퍼 슬롯 인덱스 (0 ~ 15)
-			0, // ???
+			0, // 정점 구조체의 시작 위치와 해당 성분의 시작위치의 offset
 			D3D11_INPUT_PER_VERTEX_DATA, // 다른 값은 인스턴싱에 쓰임
 			0 // 다른 값은 인스턴싱에 쓰임
 		},
 		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
 	};
+
+	/*
+		Vertex 구조체의 성분 개수가 달라지거나 size가 달라지면 에러
+		개수나 size는 같지만 시맨틱이 다른 경우 경고 (오류는 아니어서 사용 가능)
+	*/
 
 	// 현재 패스 정보 서술
 	D3DX11_PASS_DESC PassDesc;
