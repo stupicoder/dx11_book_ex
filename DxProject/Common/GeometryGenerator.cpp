@@ -205,6 +205,7 @@ void GeometryGenerator::CreateGeosphere(float radius, UINT numSubdivisions, Mesh
 	const float X = 0.525731f;
 	const float Z = 0.850651f;
 
+	// 정이십면체 생성
 	XMFLOAT3 pos[12] =
 	{
 		XMFLOAT3(-X, 0.0f, Z),  XMFLOAT3(X, 0.0f, Z),
@@ -232,9 +233,11 @@ void GeometryGenerator::CreateGeosphere(float radius, UINT numSubdivisions, Mesh
 	for (UINT i = 0; i < 60; ++i)
 		meshData.Indices[i] = k[i];
 
+	// 정이십면체의 삼각형을 테셀레이션 방식으로 쪼갬
 	for (UINT i = 0; i < numSubdivisions; ++i)
 		Subdivide(meshData);
 
+	// 각 버텍스를 원 반지름 길이로 설정
 	// Project vertices onto sphere and scale.
 	for (UINT i = 0; i < meshData.Vertices.size(); ++i)
 	{
@@ -276,27 +279,28 @@ void GeometryGenerator::CreateCylinder(float bottomRadius, float topRadius, floa
 	// Build Stacks.
 	// 
 
-	float stackHeight = height / stackCount;
+	const float stackHeight = height / stackCount;
 
 	// Amount to increment radius as we move up each stack level from bottom to top.
-	float radiusStep = (topRadius - bottomRadius) / stackCount;
+	const float radiusStep = (topRadius - bottomRadius) / stackCount;
 
-	UINT ringCount = stackCount + 1;
+	const UINT ringCount = stackCount + 1;
 
 	// Compute vertices for each stack ring starting at the bottom and moving up.
 	for (UINT i = 0; i < ringCount; ++i)
 	{
-		float y = -0.5f * height + i * stackHeight;
-		float r = bottomRadius + i * radiusStep;
+		const float y = -0.5f * height + i * stackHeight;
+		const float r = bottomRadius + i * radiusStep;
 
 		// vertices of ring
-		float dTheta = 2.0f * XM_PI / sliceCount;
+		const float dTheta = 2.0f * XM_PI / sliceCount;
+		// UV 때문에 첫번째 정점과 마지막 정점의 위치가 겹침
 		for (UINT j = 0; j <= sliceCount; ++j)
 		{
 			Vertex vertex;
 
-			float c = cosf(j * dTheta);
-			float s = sinf(j * dTheta);
+			const float c = cosf(j * dTheta);
+			const float s = sinf(j * dTheta);
 
 			vertex.Position = XMFLOAT3(r * c, y, r * s);
 
@@ -323,14 +327,14 @@ void GeometryGenerator::CreateCylinder(float bottomRadius, float topRadius, floa
 			//  dz/dv = (r0-r1)*sin(t)
 
 			// This is unit length.
-			vertex.TangentU = XMFLOAT3(-s, 0.0f, c);
+			vertex.TangentU = XMFLOAT3(-s, 0.0f, c); // X or Z 축 방향
 
 			float dr = bottomRadius - topRadius;
-			XMFLOAT3 bitangent(dr * c, -height, dr * s);
+			XMFLOAT3 bitangent(dr * c, -height, dr * s); // Y축 방향
 
 			XMVECTOR T = XMLoadFloat3(&vertex.TangentU);
-			XMVECTOR B = XMLoadFloat3(&bitangent);
-			XMVECTOR N = XMVector3Normalize(XMVector3Cross(T, B));
+			XMVECTOR B = XMLoadFloat3(&bitangent); // 이건 Normalize 안해줘도 되나?
+			XMVECTOR N = XMVector3Normalize(XMVector3Cross(T, B)); // 노말 방향
 			XMStoreFloat3(&vertex.Normal, N);
 
 			meshData.Vertices.push_back(vertex);
@@ -505,8 +509,8 @@ void GeometryGenerator::BuildCylinderTopCap(float bottomRadius, float topRadius,
 {
 	UINT baseIndex = (UINT)meshData.Vertices.size();
 
-	float y = 0.5f * height;
-	float dTheta = 2.0f * XM_PI / sliceCount;
+	const float y = 0.5f * height;
+	const float dTheta = 2.0f * XM_PI / sliceCount;
 
 	// Duplicate cap ring vertices because the texture coordinates and normals differ.
 	for (UINT i = 0; i <= sliceCount; ++i)

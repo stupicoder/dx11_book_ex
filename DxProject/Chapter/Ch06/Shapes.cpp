@@ -21,6 +21,7 @@ ShapesApp::ShapesApp(HINSTANCE hInstance)
 	mLastMousePos.x = 0;
 	mLastMousePos.y = 0;
 
+	// Box, Sphere, Cylinder 가 개수만큼 존재하는 것이 아닌 인스턴싱되어 행렬정보만 개별적으로 존재.
 	XMMATRIX I = XMMatrixIdentity();
 	XMStoreFloat4x4(&mGridWorld, I);
 	XMStoreFloat4x4(&mView, I);
@@ -64,12 +65,14 @@ bool ShapesApp::Init()
 	BuildFX();
 	BuildVertexLayout();
 
+	// 래스터 라이저 설정
 	D3D11_RASTERIZER_DESC WireframeDesc;
 	ZeroMemory(&WireframeDesc, sizeof(D3D11_RASTERIZER_DESC));
-	WireframeDesc.FillMode = D3D11_FILL_WIREFRAME;
-	WireframeDesc.CullMode = D3D11_CULL_BACK;
-	WireframeDesc.FrontCounterClockwise = false;
-	WireframeDesc.DepthClipEnable = true;
+	WireframeDesc.FillMode = D3D11_FILL_WIREFRAME; // 기본은 FILL_SOLID
+	WireframeDesc.CullMode = D3D11_CULL_BACK; // 기본은 CULL_BACK
+	WireframeDesc.FrontCounterClockwise = false; // 기본은 false
+	// 카메라 기준 시계방향이 앞면
+	WireframeDesc.DepthClipEnable = true; // 기본은 true
 
 	HR(mD3DDevice->CreateRasterizerState(&WireframeDesc, &mWireframeRS));
 
@@ -130,6 +133,7 @@ void ShapesApp::DrawScene()
 		XMMATRIX worldViewProj = world * viewProj;
 		mfxWorldViewProj->SetMatrix(reinterpret_cast<float*>(&worldViewProj));
 		mTech->GetPassByIndex(p)->Apply(0, mD3DImmediateContext);
+		// 인덱스 시작 지점, 인덱스 개수, 버텍스 시작 지점 으로 버퍼의 일부분만 사용해 렌더링
 		mD3DImmediateContext->DrawIndexed(mGridIndexCount, mGridIndexOffset, mGridVertexOffset);
 
 		// Draw the box.
@@ -154,6 +158,7 @@ void ShapesApp::DrawScene()
 			mfxWorldViewProj->SetMatrix(reinterpret_cast<float*>(&worldViewProj));
 			mTech->GetPassByIndex(p)->Apply(0, mD3DImmediateContext);
 			mD3DImmediateContext->DrawIndexed(mCylinderIndexCount, mCylinderIndexOffset, mCylinderVertexOffset);
+			// 드로우콜 개수는 그대로네 이건 어떻게 줄일까?
 		}
 
 		// Draw the spheres.
@@ -254,6 +259,11 @@ void ShapesApp::BuildGeometryBuffers()
 
 	const UINT TotalIndexCount = 
 		mBoxIndexCount + mGridIndexCount + mSphereIndexCount + mCylinderIndexCount;
+
+	/*
+		하나의 Vertex Buffer, Index Buffer에 각 도형의 정보를 합쳐서 저장.
+		렌더링 할 때는 버퍼 전체가 아닌 일부분만 사용해 렌더링.
+	*/
 
 	//
 	// Extract the vertex elements we are interested in and pack the
