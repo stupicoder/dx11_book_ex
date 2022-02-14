@@ -6,6 +6,7 @@
 #include "Chapter/Ch06/Box.h"
 #include "Chapter/Ch06/Hills.h"
 #include "Chapter/Ch06/Shapes.h"
+#include "Chapter/Ch06/Skull.h"
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, PWSTR pCmdLine, int nCmdShow)
 {
@@ -18,15 +19,18 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPreInstance, PWSTR pCmdLine,
 	switch (0)
 	{
 	case 0:
-		MainApp = new ShapesApp(hInstance);
+		MainApp = new SkullApp(hInstance);
 		break;
 	case 1:
-		MainApp = new HillsApp(hInstance);
+		MainApp = new ShapesApp(hInstance);
 		break;
 	case 2:
-		MainApp = new BoxApp(hInstance);
+		MainApp = new HillsApp(hInstance);
 		break;
 	case 3:
+		MainApp = new BoxApp(hInstance);
+		break;
+	case 4:
 		MainApp = new InitDirect3DApp(hInstance);
 		break;
 	default:
